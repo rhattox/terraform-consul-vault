@@ -1,5 +1,7 @@
 resource "helm_release" "consul" {
-  depends_on = [ kubernetes_persistent_volume_claim.consul_pvc ]
+  depends_on = [ 
+    kubernetes_persistent_volume.consul_pv
+  ]
   name       = "consul"
   repository = "https://helm.releases.hashicorp.com"
   chart      = "consul"
@@ -13,7 +15,7 @@ resource "helm_release" "consul" {
   }
   set {
     name  = "server.storageClass"
-    value = "consul-storage-class"
+    value = "consul-local-storage"
   }
 
 }

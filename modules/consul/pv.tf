@@ -1,16 +1,30 @@
 resource "kubernetes_persistent_volume" "consul_pv" {
-    depends_on = [ null_resource.check_dir_existance ]
+  depends_on = [ 
+    kubernetes_storage_class_v1.consul_sc
+  ]
   metadata {
     name = "consul-pv"
   }
   spec {
     capacity = {
-      storage = "10Gi"
+      storage = "20Gi"
     }
+    storage_class_name = "consul-local-storage"
     access_modes = ["ReadWriteMany"]
+    node_affinity {
+      required {
+        node_selector_term {
+          match_expressions {
+            key = "kubernetes.io/hostname"
+            operator = "In"
+            values = ["dev-nitro-an515-43"]
+          }
+        }
+      }
+    }
     persistent_volume_source {
-      vsphere_volume {
-        volume_path = "/mnt/consul_pv"
+      local {
+        path = "/mnt/consul_pv"
       }
     }
   }

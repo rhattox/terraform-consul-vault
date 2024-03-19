@@ -1,7 +1,7 @@
 resource "kubernetes_persistent_volume_claim" "vault_pvc" {
   depends_on = [ 
     kubernetes_persistent_volume.vault_pv,
-    kubernetes_storage_class_v1.vault_sc
+    kubernetes_namespace.vault_ns
   ]
   metadata {
     name = "vault-pvc"
