@@ -5,7 +5,7 @@ resource "null_resource" "check_dir_existance" {
 
   provisioner "local-exec" {
     command = <<-EOT
-      sudo mkdir -p /mnt/consul_pv   
+      sudo mkdir -p /mnt/vault_pv
     EOT
   }
 }

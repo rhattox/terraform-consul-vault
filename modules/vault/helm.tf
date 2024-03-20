@@ -4,17 +4,12 @@ resource "helm_release" "vault" {
   repository = "https://helm.releases.hashicorp.com"
   chart      = "vault"
   version    = "0.27.0"
-  namespace  = "default"
-
+  namespace  = "vault"
+  
+  values = [file("${path.module}/config.yaml")]
+  
   set {
-    name  = "global.enabled"
+    name  = "server.dataStorage.enabled"
     value = "true"
   }
-
-  set {
-    name  = "dataStorage.storageClass"
-    value = "vault-storage-class"
-  }
-
-
 }
