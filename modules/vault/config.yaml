@@ -1,5 +1,14 @@
+global:
+  enabled: true
+  tlsDisable: true
+injector:
+  enabled: true
+ui:
+  enabled: true
 server:
   ha:
+    enabled: true
+    replicas: 1
     config: |
       ui = true
 
@@ -8,6 +17,9 @@ server:
         address = "[::]:8200"
         cluster_address = "[::]:8201"
       }
-
+      storage "consul" {
+        address = "consul-server.consul.svc.cluster.local:8500"
+        path    = "vault/"
+      }
       service_registration "kubernetes" {}
 
